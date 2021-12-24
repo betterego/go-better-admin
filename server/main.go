@@ -1,16 +1,15 @@
 package main
 
 import (
-	_ "github.com/betterego/go-better-admin/server/core"
+	"github.com/betterego/go-better-admin/server/core"
+	"github.com/betterego/go-better-admin/server/global"
 	_ "github.com/betterego/go-better-admin/server/initialize"
-	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK,"ok")
-	})
-	r.Run(":8088")
+	if global.DB != nil {
+		db,_ := global.DB.DB()
+		defer db.Close()
+	}
+	core.Run()
 }

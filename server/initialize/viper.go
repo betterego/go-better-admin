@@ -1,4 +1,4 @@
-package core
+package initialize
 
 import (
 	"fmt"
@@ -6,10 +6,6 @@ import (
 	"github.com/betterego/go-better-admin/server/global"
 	"github.com/spf13/viper"
 )
-
-func init() {
-	global.VIPER = Viper()
-}
 
 func Viper() *viper.Viper {
 	v := viper.New()
@@ -20,7 +16,7 @@ func Viper() *viper.Viper {
 	if err != nil {
 		panic(fmt.Errorf("配置文件错误: %s \n", err))
 	}
-	if err := v.Unmarshal(&global.CONFIG); err != nil {
+	if err := v.Unmarshal(&global.SYSTEM); err != nil {
 		fmt.Println(err)
 	}
 	return v

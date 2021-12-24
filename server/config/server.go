@@ -1,5 +1,5 @@
 package config
 
 type Server struct {
-	Mysql Mysql `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	Port int `map:"port" json:"port" yaml:"port"`
 }

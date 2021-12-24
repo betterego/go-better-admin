@@ -1,21 +1,16 @@
-package initialize
+package util
 
 import (
+	"errors"
 	"fmt"
-	"github.com/betterego/go-better-admin/server/global"
+	"github.com/betterego/go-better-admin/server/config"
 	driver "gorm.io/driver/mysql"
 	"gorm.io/gorm"
-
 )
 
-func init() {
-	global.DB = initMysql()
-}
-
-func initMysql() *gorm.DB {
-	mysql := global.CONFIG.Mysql
+func LinkDB(mysql config.Mysql) (*gorm.DB,error) {
 	if mysql.Dbname == "" {
-		return nil
+		return nil,errors.New("数据库链接失败，数据库名不能为空")
 	}
 	dsn := mysql.Dsn()
 	mysqlConfig :=driver.Config{
@@ -27,13 +22,13 @@ func initMysql() *gorm.DB {
 		SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
 	}
 	if db, err := gorm.Open(driver.New(mysqlConfig), &gorm.Config{}); err != nil {
-		fmt.Println("数据库链接异常！")
-		return nil
+		fmt.Println("数据库链接失败！")
+		return nil,err
 	}else {
 		sqlDB,_ := db.DB()
 		sqlDB.SetMaxIdleConns(mysql.MaxIdleConns)
 		sqlDB.SetMaxOpenConns(mysql.MaxOpenConns)
-		return db
+		fmt.Println("数据库链接成功")
+		return db,nil
 	}
-
 }
