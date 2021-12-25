@@ -16,7 +16,7 @@ func (initApi *InitApi) InitDB(c *gin.Context)  {
 		return
 	}
 	var config request.DBConfig
-	if err := c.ShouldBindJSON(&config); err != nil {
+	if err := c.ShouldBind(&config); err != nil {
 		util.FailWithMessage("参数校验不通过!",c)
 		return
 	}
