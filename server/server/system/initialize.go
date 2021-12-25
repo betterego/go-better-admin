@@ -88,6 +88,7 @@ func (initializeService *InitializeService) createDB(dbConfig *request.DBConfig)
 
 func LinkDB(mysql config.Mysql) (*gorm.DB,error) {
 	if mysql.Dbname == "" {
+		global.LOG.Error("数据库链接失败，数据库名不能为空")
 		return nil,errors.New("数据库链接失败，数据库名不能为空")
 	}
 	dsn := mysql.Dsn()
@@ -100,13 +101,13 @@ func LinkDB(mysql config.Mysql) (*gorm.DB,error) {
 		SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
 	}
 	if db, err := gorm.Open(driver.New(mysqlConfig), &gorm.Config{}); err != nil {
-		fmt.Println("数据库链接失败！")
+		global.LOG.Error("数据库链接失败")
 		return nil,err
 	}else {
 		sqlDB,_ := db.DB()
 		sqlDB.SetMaxIdleConns(mysql.MaxIdleConns)
 		sqlDB.SetMaxOpenConns(mysql.MaxOpenConns)
-		fmt.Println("数据库链接成功")
+		global.LOG.Info("数据库链接成功")
 		return db,nil
 	}
 }

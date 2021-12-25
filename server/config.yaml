@@ -8,5 +8,15 @@ mysql:
   max-open-conns: 0
   log-mode: ""
   log-zap: false
+zap:
+  level: info
+  format: console
+  prefix: ''
+  director: log
+  link-name: latest_log
+  showLine: true
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  log-in-console: true
 server:
   port: 8888

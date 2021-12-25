@@ -9,8 +9,11 @@ import (
 )
 
 func Run()  {
-	err:=initServer().ListenAndServe().Error()
-	fmt.Println(err)
+	if err:=initServer().ListenAndServe(); err != nil {
+		global.LOG.Fatal(err.Error())
+		return
+	}
+	global.LOG.Info("項目啟動成功")
 }
 
 func initServer() *http.Server {

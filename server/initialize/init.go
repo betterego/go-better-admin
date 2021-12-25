@@ -6,6 +6,7 @@ import (
 
 func init() {
 	global.VIPER = Viper()
+	global.LOG = Zap()
 	global.DB = initMysql()
 	initRouters()
 }

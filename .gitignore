@@ -17,3 +17,4 @@ server/.idea/.gitignore
 server/.idea/modules.xml
 server/.idea/server.iml
 server/.idea/vcs.xml
+server/log/
